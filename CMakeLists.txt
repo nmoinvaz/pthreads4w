@@ -140,13 +140,17 @@ macro(static_lib type def)
     endif()
 endmacro()
 
-shared_lib ( VCE __PTW32_CLEANUP_CXX )
-shared_lib ( VSE __PTW32_CLEANUP_SEH )
-shared_lib ( VC  __PTW32_CLEANUP_C )
-
-static_lib ( VCE __PTW32_CLEANUP_CXX )
-static_lib ( VSE __PTW32_CLEANUP_SEH )
-static_lib ( VC  __PTW32_CLEANUP_C )
+# Build options
+option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+if(BUILD_SHARED_LIBS)
+    shared_lib ( VCE __PTW32_CLEANUP_CXX )
+    shared_lib ( VSE __PTW32_CLEANUP_SEH )
+    shared_lib ( VC  __PTW32_CLEANUP_C )
+else()
+    static_lib ( VCE __PTW32_CLEANUP_CXX )
+    static_lib ( VSE __PTW32_CLEANUP_SEH )
+    static_lib ( VC  __PTW32_CLEANUP_C )
+endif()
 
 #################################
 # Install                       #
