@@ -3,7 +3,7 @@ include (CTest)
 
 include_directories(..)
 
-set(XXLIBS	ws2_32.lib)
+set(XXLIBS  ws2_32.lib)
 
 set(VCEFLAGS "${VCEFLAGS} -D__PtW32NoCatchWarn")
 
@@ -22,16 +22,15 @@ macro(add_testcase test cleanupstyle def buildtype)
         set(c_dep "benchlib.c")
     endif()
 
-    set(extra "")
     if(${test} MATCHES "openmp1")
         if(MSVC)
-            set(extra "/openmp -D_OPENMP")
+            set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /openmp")
         endif()
     endif()
 
     add_executable(${lib_test} ${test}.c ${c_dep})
     target_link_libraries(${lib_test} ${lib_lib} ${XXLIBS})
-    target_compile_definitions(${lib_test} PUBLIC "/nologo -D_CONSOLE -D_MBCS -D${def} ${extra}")
+    target_compile_definitions(${lib_test} PUBLIC -D_CONSOLE -D_MBCS "-D${def}")
     add_dependencies(${lib_test} ${lib_lib})
 
     if(${CMAKE_GENERATOR} MATCHES "Visual Studio")
