@@ -18,9 +18,17 @@ project(pthreads4w VERSION ${PTHREADS4W_VERSION} LANGUAGES C)
 set(PTW32_VER ${PROJECT_VERSION_MAJOR}${EXTRAVERSION})
 set(CMAKE_DEBUG_POSTFIX d)
 
+# Option to use static runtime
+include(ucm.cmake)
+option(USE_STATIC_RUNTIME "Use static runtime" ON)
+if(USE_STATIC_RUNTIME)
+    ucm_set_runtime(STATIC)
+else()
+    ucm_set_runtime(DYNAMIC)
+endif()
+
 # Uncomment this if config.h defines RETAIN_WSALASTERROR
 #set(XLIBS wsock32.lib)
-
 
 include_directories(.)
 
