@@ -142,14 +142,26 @@ endmacro()
 
 # Build options
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+set(CLEANUP_STYLE "VC" CACHE STRING
+    "Choose cleanup code style, options are: VCE VSE VC." FORCE)
+set_property(CACHE CLEANUP_STYLE PROPERTY STRINGS  "VCE;VSE;VC")
+
 if(BUILD_SHARED_LIBS)
-    shared_lib ( VCE __PTW32_CLEANUP_CXX )
-    shared_lib ( VSE __PTW32_CLEANUP_SEH )
-    shared_lib ( VC  __PTW32_CLEANUP_C )
+    if(${CLEANUP_STYLE} STREQUAL "VCE")
+        shared_lib ( VCE __PTW32_CLEANUP_CXX )
+    elseif(${CLEANUP_STYLE} STREQUAL "VSE")
+        shared_lib ( VSE __PTW32_CLEANUP_SEH )
+    elseif(${CLEANUP_STYLE} STREQUAL "VC")
+        shared_lib ( VC  __PTW32_CLEANUP_C )
+    endif()
 else()
-    static_lib ( VCE __PTW32_CLEANUP_CXX )
-    static_lib ( VSE __PTW32_CLEANUP_SEH )
-    static_lib ( VC  __PTW32_CLEANUP_C )
+    if(${CLEANUP_STYLE} STREQUAL "VCE")
+        static_lib ( VCE __PTW32_CLEANUP_CXX )
+    elseif(${CLEANUP_STYLE} STREQUAL "VSE")
+        static_lib ( VSE __PTW32_CLEANUP_SEH )
+    elseif(${CLEANUP_STYLE} STREQUAL "VC")
+        static_lib ( VC  __PTW32_CLEANUP_C )
+    endif()
 endif()
 
 #################################
