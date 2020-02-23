@@ -6,7 +6,7 @@ if(NOT CMAKE_BUILD_TYPE)
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS  "Debug;Release;RelWithDebInfo;MinSizeRel")
 endif()
 
-set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${CMAKE_SOURCE_DIR}/cmake")
+set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${CMAKE_SOURCE_DIR}/CMake")
 
 include (get_version)
 
@@ -92,7 +92,7 @@ if(MSVC)
 endif()
 
 # Update filename with proper version info
-configure_file(${CMAKE_SOURCE_DIR}/cmake/version.rc.in ${CMAKE_BINARY_DIR}/version.rc @ONLY)
+configure_file(${CMAKE_SOURCE_DIR}/CMake/version.rc.in ${CMAKE_BINARY_DIR}/version.rc @ONLY)
 
 #################################
 # Libraries                     #
