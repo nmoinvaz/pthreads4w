@@ -6,7 +6,7 @@ if(NOT CMAKE_BUILD_TYPE)
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS  "Debug;Release;RelWithDebInfo;MinSizeRel")
 endif()
 
-set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${CMAKE_SOURCE_DIR}/CMake")
+set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 
 include (get_version)
 
@@ -92,7 +92,7 @@ if(MSVC)
 endif()
 
 # Update filename with proper version info
-configure_file(${CMAKE_SOURCE_DIR}/CMake/version.rc.in ${CMAKE_BINARY_DIR}/version.rc @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/CMake/version.rc.in ${CMAKE_CURRENT_BINARY_DIR}/version.rc @ONLY)
 
 #################################
 # Libraries                     #
@@ -104,18 +104,18 @@ endif()
 
 macro(shared_lib type def)
     set(targ pthread${type}${PTW32_VER})
-    add_library(${targ} SHARED pthread.c ${CMAKE_BINARY_DIR}/version.rc)
+    add_library(${targ} SHARED pthread.c ${CMAKE_CURRENT_BINARY_DIR}/version.rc)
     message(STATUS ${targ})
     target_compile_definitions(${targ} PUBLIC "-D${def}")
     if(${type} STREQUAL "VCE")
         set_target_properties(${targ} PROPERTIES COMPILE_FLAGS ${VCEFLAGS})
     endif()
     if(${CMAKE_GENERATOR} MATCHES "Visual Studio")
-        install(FILES ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/${targ}${targ_suffix}.dll DESTINATION ${DLLDEST})
-        install(FILES ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/${targ}${targ_suffix}.lib DESTINATION ${LIBDEST})
+        install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}/${targ}${targ_suffix}.dll DESTINATION ${DLLDEST})
+        install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}/${targ}${targ_suffix}.lib DESTINATION ${LIBDEST})
     else()
-        install(FILES ${CMAKE_BINARY_DIR}/${targ}${targ_suffix}.dll DESTINATION ${DLLDEST})
-        install(FILES ${CMAKE_BINARY_DIR}/${targ}${targ_suffix}.lib DESTINATION ${LIBDEST})
+        install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${targ}${targ_suffix}.dll DESTINATION ${DLLDEST})
+        install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${targ}${targ_suffix}.lib DESTINATION ${LIBDEST})
     endif()
 endmacro()
 
@@ -128,9 +128,9 @@ macro(static_lib type def)
         set_target_properties(${targ} PROPERTIES COMPILE_FLAGS ${VCEFLAGS})
     endif()
     if(${CMAKE_GENERATOR} MATCHES "Visual Studio")
-        install(FILES ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/${targ}${targ_suffix}.lib DESTINATION ${LIBDEST})
+        install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}/${targ}${targ_suffix}.lib DESTINATION ${LIBDEST})
     else()
-        install(FILES ${CMAKE_BINARY_DIR}/${targ}${targ_suffix}.lib DESTINATION ${LIBDEST})
+        install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${targ}${targ_suffix}.lib DESTINATION ${LIBDEST})
     endif()
 endmacro()
 
